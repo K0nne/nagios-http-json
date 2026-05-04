@@ -336,13 +336,13 @@ class JsonRuleProcessor:
         unit = r[-1]
 
         if unit == 's':
-            tiemduration = timedelta(seconds=duration)
+            time_duration = timedelta(seconds=duration)
         elif unit == 'm':
-            tiemduration = timedelta(minutes=duration)
+            time_duration = timedelta(minutes=duration)
         elif unit == 'h':
-            tiemduration = timedelta(hours=duration)
+            time_duration = timedelta(hours=duration)
         elif unit == 'd':
-            tiemduration = timedelta(days=duration)
+            time_duration = timedelta(days=duration)
         else:
             return " Value (%s) is not a vaild timeduration." % (r)
 
@@ -362,14 +362,14 @@ class JsonRuleProcessor:
         age = now - timestamp
 
         if not negative:
-            if age > tiemduration and not invert:
+            if age > time_duration and not invert:
                 failure += " Value (%s) for key %s is older than now-%s%s." % (self.helper.get(key), alias, duration, unit)
-            if not age > tiemduration and invert:
+            if not age > time_duration and invert:
                 failure += " Value (%s) for key %s is newer than now-%s%s." % (self.helper.get(key), alias, duration, unit)
         else:
-            if age < -tiemduration and not invert:
+            if age < -time_duration and not invert:
                 failure += " Value (%s) for key %s is newer than now+%s%s." % (self.helper.get(key), alias, duration, unit)
-            if not age < -tiemduration and invert:
+            if not age < -time_duration and invert:
                 failure += " Value (%s) for key %s is older than now+%s%s.." % (self.helper.get(key), alias, duration, unit)
 
         return failure
